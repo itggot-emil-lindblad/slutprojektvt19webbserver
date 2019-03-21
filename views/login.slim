@@ -1,7 +1,10 @@
 .login
-    h1 Prästkragens förskola
-
-    form action="/login" method="post"
-        input type="text" placeholder="Användare" name="UserName"
-        input type="password" placeholder="Lösenord" name="PassWord"
-        input type="submit" value="Logga in"
+    div.title
+        h1 Prästkragens förskola
+        p CMS
+    .form
+        form action="/login" method="post"
+            div.fields
+                input type="text" placeholder="Användare" name="UserName"
+                input type="password" placeholder="Lösenord" name="PassWord"
+            input.btn type="submit" value="Logga in"
