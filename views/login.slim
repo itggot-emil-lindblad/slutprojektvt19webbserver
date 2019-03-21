@@ -2,9 +2,19 @@
     div.title
         h1 Prästkragens förskola
         p CMS
-    .form
-        form action="/login" method="post"
-            div.fields
-                input type="text" placeholder="Användare" name="UserName"
-                input type="password" placeholder="Lösenord" name="PassWord"
-            input.btn type="submit" value="Logga in"
+    -if session[:wrong] != nil
+        .form
+            form action="/login" method="post"
+                div.fields
+                    input type="text" placeholder="Användare" name="UserName"
+                    input type="password" placeholder="Lösenord" name="PassWord"
+                input.btn type="submit" value="Logga in"      
+        p.wrong = "Fel användarnamn eller lösenord!"
+    -else
+        .form
+            form action="/login" method="post"
+                div.fields
+                    input type="text" placeholder="Användare" name="UserName"
+                    input type="password" placeholder="Lösenord" name="PassWord"
+                input.btn type="submit" value="Logga in"      
+        p.wrong style="visibility: hidden;" = "Fel användarnamn eller lösenord!"

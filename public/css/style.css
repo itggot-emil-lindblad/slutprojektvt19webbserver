@@ -1,5 +1,5 @@
 body {
-    background: radial-gradient(ellipse at center, #192742 0%,#182742 10%,#1d3c66 18%,#182843 32%,#182843 32%,#172f49 44%,#172f49 44%,#143551 60%,#143551 60%,#143c51 69%,#143d51 77%);
+    background: linear-gradient(to right, #192b43 0%,#182a42 10%,#1d4267 18%,#182c44 33%,#182c44 33%,#182c44 52%,#182c44 68%,#1d4267 81%,#182a42 90%,#182a42 90%,#192b43 100%);
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     height: 100vh;
@@ -20,7 +20,6 @@ div.login {
     width: 450px;
     padding: 20px;
     text-align: center
-    /* background: radial-gradient(350px 250px at 50% 50%,rgba(0,175,236,.25) 0%,rgba(0,175,236,0) 100%); */
 }
 
 div.title h1 {

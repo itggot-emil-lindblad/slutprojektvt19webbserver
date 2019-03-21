@@ -3,7 +3,7 @@ def login(params)
     db.results_as_hash = true
     result = db.execute("SELECT Id, UserName, Hash FROM users WHERE Username =?",params["UserName"])
     if result == []
-        redirect('/denied')
+        return false
     elsif checkpassword(params["PassWord"],result[0]["Hash"]) == true
         session[:userid] = result[0]["Id"]
         session[:username] = params["UserName"]

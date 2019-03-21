@@ -4,6 +4,7 @@ require 'slim'
 require 'bcrypt'
 require 'securerandom'
 require_relative 'database.rb'
+enable :sessions
 
 get('/') do
     slim(:login)
@@ -13,14 +14,11 @@ post('/login') do
     if login(params) == true
         redirect('/dashboard')
     else
-        redirect('/denied')
+        session[:wrong] = true
+        redirect('/')
     end
 end
 
 get('/dashboard') do
     slim(:index)
-end
-
-get('/denied') do
-    "Error 501"
 end
