@@ -12,6 +12,13 @@ p {
     font-weight: 300;
 }
 
+div.wrapper {
+    margin: 0px 20vw 0px 20vw;
+    background-color: white;
+    /* height: 500px; */
+    color: black;
+}
+
 div.login {
     position: absolute;
     top: 50%;
