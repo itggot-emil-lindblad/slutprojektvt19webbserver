@@ -7,11 +7,10 @@ require_relative 'database.rb'
 enable :sessions
 
 configure do
-    set :publicroutes, ["/"]
+    set :publicroutes, ["/","/login"]
 end
 
 before do 
-    p "hej"
     if settings.publicroutes.any?(request.path_info) == false
         if session[:username] != nil
             break
@@ -42,7 +41,6 @@ get('/') do
 end
 
 post('/login') do
-    p params["UserName"]
     if login(params) == true
         redirect('/dashboard')
     else
