@@ -1,8 +1,9 @@
+html {
+    height: 100%;
+}
 body {
     background: linear-gradient(to right, #192b43 0%,#182a42 10%,#1d4267 18%,#182c44 33%,#182c44 33%,#182c44 52%,#182c44 68%,#1d4267 81%,#182a42 90%,#182a42 90%,#192b43 100%);
-    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
-    height: 100vh;
     font-family: 'Roboto', sans-serif;
     color: white;
 }
@@ -13,10 +14,8 @@ p {
 }
 
 div.wrapper {
-    margin: 0px 20vw 0px 20vw;
-    background-color: white;
-    /* height: 500px; */
-    color: black;
+    margin: 0px 20vw 0px 19vw;
+    background-color: black;
 }
 
 div.login {
@@ -26,7 +25,7 @@ div.login {
     transform: translate(-50%,-50%);
     width: 450px;
     padding: 20px;
-    text-align: center
+    text-align: center;
 }
 
 div.title h1 {
@@ -52,10 +51,10 @@ div.fields input {
     border-radius: 2px;
     border: none;
     padding-left: 10px;
-    color: rgb(70, 70, 70);
+    color: #464646
 }
 
-div.login input.btn {
+input.btn {
     display: block;
     margin-bottom: 10px;
     height: 30px;
@@ -68,9 +67,32 @@ div.login input.btn {
     transition: .5s all;
 }
 
-div.login input.btn:hover {
+input.btn:hover {
     cursor: pointer;
     border-radius: 2px;
     background: #00afec;
     transition: .5s all;
+}
+
+div.dashboard {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    height: 100vh;
+}
+
+div.main {
+    grid-column: span 4;
+    background-color: white;
+    padding: 20px;
+    color: #464646;
+}
+
+div.sidebar {
+    background-color: #132133;
+    grid-column: 1;
+}
+
+div.logout {
+    display: flex;
+    justify-content: right;
 }

@@ -7,7 +7,7 @@ require_relative 'database.rb'
 enable :sessions
 
 configure do
-    set :publicroutes, ["/","/login"]
+    set :publicroutes, ["/","/login","/logout"]
 end
 
 before do 
@@ -53,4 +53,9 @@ get('/dashboard') do
     slim(:index)
 end
 
-
+post('/logout') do
+    p session
+    session.destroy
+    p session
+    redirect('/')
+end
