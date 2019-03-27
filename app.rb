@@ -15,7 +15,7 @@ before do
         if session[:username] != nil
             break
         else
-            halt 401, 'Unauthorized Error 401'
+            halt 401
         end
     end
 end
@@ -34,6 +34,11 @@ helpers do
     def error?
         !session[:error].nil?
     end
+    
+end
+
+error 401 do 
+    'Unauthorized!'
 end
 
 get('/') do

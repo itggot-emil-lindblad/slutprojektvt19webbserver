@@ -2,19 +2,18 @@ html {
     height: 100%;
 }
 body {
-    background: linear-gradient(to right, #192b43 0%,#182a42 10%,#1d4267 18%,#182c44 33%,#182c44 33%,#182c44 52%,#182c44 68%,#1d4267 81%,#182a42 90%,#182a42 90%,#192b43 100%);
+    background: linear-gradient(to right, #192b43 0%,#182a42 8%,#1d4267 15%,#182c44 35%,#182c44 50%,#182c44 65%,#1d4267 85%,#182a42 92%,#192b43 100%);
     margin: 0;
     font-family: 'Roboto', sans-serif;
     color: white;
 }
 
 p {
-    font-family: 'Roboto' sans-serif;
     font-weight: 300;
 }
 
 div.wrapper {
-    margin: 0px 20vw 0px 19vw;
+    margin: 0px 15vw 0px 15vw;
     background-color: black;
 }
 
@@ -90,6 +89,28 @@ div.main {
 div.sidebar {
     background-color: #132133;
     grid-column: 1;
+}
+
+div.sidebar ul li a {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    color: white;
+    transition: all 0.5s;
+
+}
+
+div.sidebar ul li a:hover {
+    text-decoration-color: #00afec;
+    /* border-bottom: #00afec solid 2px; */
+    transition: all 0.5s;
+}
+
+div.sidebar ul {
+    list-style: none;
+}
+
+div.sidebar ul li {
+    margin: 30px 0px;
 }
 
 div.logout {
