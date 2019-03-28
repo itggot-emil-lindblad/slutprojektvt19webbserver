@@ -30,3 +30,11 @@ def news(params)
     db = getdb()
     return db.execute("SELECT * FROM posts")
 end
+
+def editprofile(params)
+    db = getdb()
+    if params["oldpw"] == db.execute("")
+        if params["newpw1"] == params["newpw1"]
+            hash = BCrypt::Password.create(params["newpw2"])
+
+end

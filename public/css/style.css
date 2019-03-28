@@ -79,11 +79,11 @@ div.dashboard {
     height: 100vh;
 }
 
-div.main {
-    grid-column: span 4;
-    background-color: white;
+div.dashboard div:nth-child(2) {
     padding: 20px;
-    color: #464646;
+    background-color: white;
+    grid-column: span 4;
+    color: black;
 }
 
 div.sidebar {

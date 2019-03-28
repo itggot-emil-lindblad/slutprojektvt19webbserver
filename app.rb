@@ -69,3 +69,12 @@ get('/news') do
     newsposts = news(params)
     slim(:news, locals:{newsposts: newsposts})
 end
+
+get('/editprofile') do
+    slim(:editprofile)
+end
+
+post('/editprofile/update') do 
+    editprofile(params)
+
+end
