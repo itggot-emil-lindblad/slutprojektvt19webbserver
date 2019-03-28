@@ -10,19 +10,18 @@ html lang="en"
         title Prästkragens förskola CMS
     body
         .wrapper
-            == yield
-        /     .wrapper
-        / -if session[:username] != nil
-        /     -slim(:login)
-        / -else
-        /     .dashboard
-        /         .sidebar
-        /             ul
-        /                 li
-        /                     a href="/dashboard" Start
-        /                 li
-        /                     a href="/editpassword" Redigera profil
-        /                 li
-        /                     a href="/news" Nyheter
-        /                 li
-        /                     a href="/employees" Personal   
+            -if session[:username] == nil
+                == slim(:login)
+            -else
+                .dashboard
+                    .sidebar
+                        ul
+                            li
+                                a href="/dashboard" Start
+                            li
+                                a href="/editpassword" Redigera profil
+                            li
+                                a href="/news" Nyheter
+                            li
+                                a href="/employees" Personal
+                    == yield   

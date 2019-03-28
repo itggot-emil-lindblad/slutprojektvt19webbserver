@@ -64,3 +64,8 @@ post('/logout') do
     p session
     redirect('/')
 end
+
+get('/news') do
+    newsposts = news(params)
+    slim(:news, locals:{newsposts: newsposts})
+end

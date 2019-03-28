@@ -1,6 +1,11 @@
-def login(params)
+def getdb()
     db = SQLite3::Database.new("db/data.db")
     db.results_as_hash = true
+    return db
+end
+
+def login(params)
+    db = getdb()
     result = db.execute("SELECT Id, UserName, Hash FROM users WHERE Username =?",params["UserName"])
     if result == []
         return false
@@ -19,4 +24,9 @@ def checkpassword(pw,dbpw)
     else
         return false
     end
+end
+
+def news(params)
+    db = getdb()
+    return db.execute("SELECT * FROM posts")
 end
