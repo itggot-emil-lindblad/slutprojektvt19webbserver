@@ -1,0 +1,11 @@
+.editprofile
+    h1 Ändra lösenord
+    form action="/editprofile/update" method="POST"
+        p Nuvarande lösenord
+        input type="password" name="oldpw"
+        p Nytt lösenord
+        input type="password" name="newpw1"
+        p Bekräfta nuvarande lösenord
+        input type="password" name="newpw2"
+        p
+        input type="submit" value="Byt lösenord"
