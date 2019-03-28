@@ -53,7 +53,7 @@ div.fields input {
     color: #464646
 }
 
-input.btn {
+input.loginbtn {
     display: block;
     margin-bottom: 10px;
     height: 30px;
@@ -66,11 +66,54 @@ input.btn {
     transition: .5s all;
 }
 
-input.btn:hover {
+input.loginbtn:hover {
     cursor: pointer;
     border-radius: 2px;
     background: #00afec;
     transition: .5s all;
+}
+
+input.btn {
+    height: 29px;
+    padding: 0 8px 0 8px;
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #c0c2c4;
+    border-radius: 3px;
+    transition: .3s all;
+}
+
+button {
+    border: 1px solid #c0c2c4;
+    border-radius: 3px;
+    transition: .3s all;
+
+}
+
+button:hover {
+    border: 1px solid #00afec;
+    cursor: pointer;
+}
+
+input.btn:hover {
+    border: 1px solid #00afec;
+    cursor: pointer;
+}
+
+input.btn:active {
+    background: #00afec;
+}
+
+div.editprofile form input[type=password] {
+    width: 195px;
+    border-radius: 2px;
+    border: 1px solid #c0c2c4;
+    height: 26px;
+    padding-left: 10px;
+
+}
+
+div.editprofile form input[type=password]:focus {
+    border: 1px solid #00afec;
 }
 
 div.dashboard {

@@ -6,7 +6,9 @@ require 'securerandom'
 require_relative 'database.rb'
 enable :sessions
 
+
 configure do
+    set :bind, '0.0.0.0'
     set :publicroutes, ["/","/login","/logout"]
 end
 
@@ -34,6 +36,7 @@ helpers do
     def error?
         !session[:error].nil?
     end
+
     
 end
 
@@ -42,6 +45,7 @@ error 401 do
 end
 
 get('/') do
+    p session
     slim(:login)
 end
 
@@ -59,9 +63,7 @@ get('/dashboard') do
 end
 
 post('/logout') do
-    p session
     session.destroy
-    p session
     redirect('/')
 end
 

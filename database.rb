@@ -36,5 +36,6 @@ def editprofile(params)
     if params["oldpw"] == db.execute("")
         if params["newpw1"] == params["newpw1"]
             hash = BCrypt::Password.create(params["newpw2"])
-
+        end
+    end
 end
