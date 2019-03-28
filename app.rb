@@ -45,8 +45,11 @@ error 401 do
 end
 
 get('/') do
-    p session
-    slim(:login)
+    if session[:username] == nil
+        slim(:login)
+    else
+        redirect('/dashboard')
+    end
 end
 
 post('/login') do
@@ -78,5 +81,6 @@ end
 
 post('/editprofile/update') do 
     editprofile(params)
+    redirect('/dashboard')
 
 end

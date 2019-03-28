@@ -53,6 +53,34 @@ div.fields input {
     color: #464646
 }
 
+button {
+    border: 1px solid #c0c2c4;
+    border-radius: 3px;
+    transition: .3s all;
+}
+
+button:hover {
+    border: 1px solid #00afec;
+    cursor: pointer;
+}
+
+input.btn {
+    height: 29px;
+    padding: 0 8px 0 8px;
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #c0c2c4;
+    border-radius: 3px;
+    transition: .3s all;
+}
+input.btn:hover {
+    border: 1px solid #00afec;
+    cursor: pointer;
+}
+
+input.btn:active {
+    background: #00afec;
+}
+
 input.loginbtn {
     display: block;
     margin-bottom: 10px;
@@ -73,35 +101,7 @@ input.loginbtn:hover {
     transition: .5s all;
 }
 
-input.btn {
-    height: 29px;
-    padding: 0 8px 0 8px;
-    font-family: 'Roboto', sans-serif;
-    border: 1px solid #c0c2c4;
-    border-radius: 3px;
-    transition: .3s all;
-}
 
-button {
-    border: 1px solid #c0c2c4;
-    border-radius: 3px;
-    transition: .3s all;
-
-}
-
-button:hover {
-    border: 1px solid #00afec;
-    cursor: pointer;
-}
-
-input.btn:hover {
-    border: 1px solid #00afec;
-    cursor: pointer;
-}
-
-input.btn:active {
-    background: #00afec;
-}
 
 div.editprofile form input[type=password] {
     width: 195px;
