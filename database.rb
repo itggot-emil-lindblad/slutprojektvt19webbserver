@@ -42,7 +42,15 @@ def editprofile(params)
     end
 end
 
-def news(params)
+def getnews(params)
     db = getdb()
     return db.execute("SELECT * FROM posts")
+end
+
+def newpost
+    
+end
+
+def getemployees(params)
+    
 end

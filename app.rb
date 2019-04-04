@@ -71,8 +71,13 @@ post('/logout') do
 end
 
 get('/news') do
-    newsposts = news(params)
+    newsposts = getnews(params)
     slim(:news, locals:{newsposts: newsposts})
+end
+
+get('/editpost/:id') do
+    
+    slim(:editpost)
 end
 
 get('/editprofile') do
@@ -82,5 +87,9 @@ end
 post('/editprofile/update') do 
     editprofile(params)
     redirect('/dashboard')
+end
 
+get('/employees') do
+    getemployees(params)
+    slim(:employees)
 end

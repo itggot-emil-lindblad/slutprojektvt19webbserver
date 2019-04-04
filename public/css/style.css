@@ -124,7 +124,7 @@ div.dashboard {
 
 div.dashboard div:nth-child(2) {
     padding: 20px;
-    background-color: white;
+    background-color: #e1e1e1;
     grid-column: span 4;
     color: black;
 }
@@ -159,4 +159,34 @@ div.sidebar ul li {
 div.logout {
     display: flex;
     justify-content: right;
+}
+
+div.news article {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 20px;
+    line-height: 1.4em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+div.news article h2 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+div.news article h3 {
+    text-align: center;
+    margin: 0 0 0 0;
+    color: #1a5d70;
+}
+
+div.news a {
+    font-weight: 400;
+}
+
+div.news article span {
+    float: right;
 }
