@@ -35,9 +35,7 @@ helpers do
     
     def error?
         !session[:error].nil?
-    end
-
-    
+    end  
 end
 
 error 401 do 
@@ -75,8 +73,16 @@ get('/news') do
     slim(:news, locals:{newsposts: newsposts})
 end
 
+get('/newpost') do
+    slim(:newpost)
+end
+
+post('/newpost') do
+    newpost(params)
+    redirect('/news')
+end
+
 get('/editpost/:id') do
-    
     slim(:editpost)
 end
 

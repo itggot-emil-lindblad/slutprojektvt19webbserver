@@ -18,7 +18,7 @@ def login(params)
     if result == []
         return false
     elsif checkpassword(params["PassWord"],result[0]["Hash"]) == true
-        session[:userid] = result[0]["Id"]
+        # session[:userid] = result[0]["Id"]
         session[:username] = result[0]["UserName"]
         return true
     else
@@ -44,11 +44,14 @@ end
 
 def getnews(params)
     db = getdb()
-    return db.execute("SELECT * FROM posts")
+    return db.execute("SELECT * FROM posts ORDER BY Id DESC")
 end
 
-def newpost
-    
+def newpost(params)
+    db = getdb()
+    # imgname = params[:img][:filename]
+    # img = params[:img][:tempfile]
+    db.execute("INSERT INTO posts(PostTitle, PostText, ImgPath) VALUES (?,?,?)",params["PostTile"],params["PostText"],params["ImgPath"])
 end
 
 def getemployees(params)
