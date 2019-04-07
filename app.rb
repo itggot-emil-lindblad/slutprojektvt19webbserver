@@ -3,6 +3,7 @@ require 'sqlite3'
 require 'slim'
 require 'bcrypt'
 require 'securerandom'
+require 'sequel'
 require_relative 'database.rb'
 enable :sessions
 

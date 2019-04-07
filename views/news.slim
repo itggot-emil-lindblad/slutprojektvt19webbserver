@@ -3,13 +3,13 @@
     -newsposts.each do |element|
         article.newspost
                 div.controls
-                    a href="/editpost/#{element["Id"]}"
+                    a href="/editpost/#{element[:Id]}"
                         button
                             i.material-icons edit
                     span 
-                        form action="/editpost/#{element["Id"]}/delete" method="POST"
+                        form action="/editpost/#{element[:Id]}/delete" method="POST"
                             button type="submit" value=""
                                 i.material-icons delete
-                h2 = element["PostTitle"]
-                img src="/img/#{element["ImgPath"]}"
-                p = element["PostText"]
+                h2 = element[:PostTitle]
+                img src="/img/#{element[:ImgPath]}"
+                p = element[:PostText]

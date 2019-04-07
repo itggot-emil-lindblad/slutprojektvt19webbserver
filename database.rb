@@ -1,8 +1,9 @@
-def getdb()
-    db = SQLite3::Database.new("db/data.db")
-    db.results_as_hash = true
-    return db
-end
+# def getdb()
+#     db = SQLite3::Database.new("db/data.db")
+#     db.results_as_hash = true
+# end
+
+DB = Sequel.connect('sqlite://db/data.db')
 
 def checkpassword(pw,dbpw)
     if BCrypt::Password.new(dbpw) == pw
@@ -13,26 +14,37 @@ def checkpassword(pw,dbpw)
 end
 
 def login(params)
-    db = getdb()
-    result = db.execute("SELECT Id, UserName, Hash FROM users WHERE Username =?",params["UserName"])
-    if result == []
+    result = DB[:users].first(:UserName => params["UserName"])
+    if result == nil
         return false
-    elsif checkpassword(params["PassWord"],result[0]["Hash"]) == true
-        # session[:userid] = result[0]["Id"]
-        session[:username] = result[0]["UserName"]
+    elsif checkpassword(params["PassWord"],result[:Hash]) == true
+        session[:username] = result[:UserName]
         return true
     else
         return false
     end
 end
 
+# def login(params)
+#     db = getdb()
+#     result = db.execute("SELECT Id, UserName, Hash FROM users WHERE Username =?",params["UserName"])
+#     if result == []
+#         return false
+#     elsif checkpassword(params["PassWord"],result[0]["Hash"]) == true
+#         # session[:userid] = result[0]["Id"]
+#         session[:username] = result[0]["UserName"]
+#         return true
+#     else
+#         return false
+#     end
+# end
+
 def editprofile(params)
-    db = getdb()
-    dbhash = db.execute("SELECT Hash FROM users WHERE id = 1")
-    if checkpassword(params["oldpw"],dbhash[0]["Hash"]) == true
+    dbhash = DB[:users].first(:id => 1)
+    if checkpassword(params["oldpw"],dbhash[:Hash]) == true
         if params["newpw1"] == params["newpw1"]
             hash = BCrypt::Password.create(params["newpw2"])
-            db.execute("UPDATE users SET Hash = ? WHERE Id = ?",hash,1)
+            DB[:users].where(Sequel[:Id] == 1).update(Hash: hash)
             return true
         else
             return false
@@ -42,10 +54,30 @@ def editprofile(params)
     end
 end
 
+# def editprofile(params)
+#     db = getdb()
+#     dbhash = db.execute("SELECT Hash FROM users WHERE id = 1")
+#     if checkpassword(params["oldpw"],dbhash[0]["Hash"]) == true
+#         if params["newpw1"] == params["newpw1"]
+#             hash = BCrypt::Password.create(params["newpw2"])
+#             db.execute("UPDATE users SET Hash = ? WHERE Id = ?",hash,1)
+#             return true
+#         else
+#             return false
+#         end
+#     else
+#         return false
+#     end
+# end
+
 def getnews(params)
-    db = getdb()
-    return db.execute("SELECT * FROM posts ORDER BY Id DESC")
+    return DB[:posts].order(Sequel.desc(:Id))
 end
+
+# def getnews(params)
+#     db = getdb()
+#     return db.execute("SELECT * FROM posts ORDER BY Id DESC")
+# end
 
 def newpost(params)
     db = getdb()
