@@ -4,6 +4,7 @@ require 'slim'
 require 'bcrypt'
 require 'securerandom'
 require 'sequel'
+require 'byebug'
 require_relative 'database.rb'
 enable :sessions
 
@@ -30,13 +31,17 @@ helpers do
     
     def get_error()
         error = session[:error]
-        session[:error] = nil
         return error
     end
     
+    def flush_error()
+        p "tja"
+        session[:error] = nil
+    end
+
     def error?
         !session[:error].nil?
-    end  
+    end
 end
 
 error 401 do 

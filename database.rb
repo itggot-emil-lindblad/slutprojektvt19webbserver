@@ -40,11 +40,11 @@ end
 # end
 
 def editprofile(params)
-    dbhash = DB[:users].first(:id => 1)
+    dbhash = DB[:users].first(:Id => 1)
     if checkpassword(params["oldpw"],dbhash[:Hash]) == true
         if params["newpw1"] == params["newpw1"]
             hash = BCrypt::Password.create(params["newpw2"])
-            DB[:users].where(Sequel[:Id] == 1).update(Hash: hash)
+            DB[:users].where(Id: 1).update(Hash: hash)
             return true
         else
             return false
@@ -80,11 +80,18 @@ end
 # end
 
 def newpost(params)
-    db = getdb()
+    # db = getdb()
     # imgname = params[:img][:filename]
     # img = params[:img][:tempfile]
-    db.execute("INSERT INTO posts(PostTitle, PostText, ImgPath) VALUES (?,?,?)",params["PostTile"],params["PostText"],params["ImgPath"])
+    DB[:posts].insert(PostTitle: params["PostTitle"], PostText: params["PostText"], ImgPath: params["ImgPath"])
 end
+
+# def newpost(params)
+#     db = getdb()
+#     # imgname = params[:img][:filename]
+#     # img = params[:img][:tempfile]
+#     db.execute("INSERT INTO posts(PostTitle, PostText, ImgPath) VALUES (?,?,?)",params["PostTile"],params["PostText"],params["ImgPath"])
+# end
 
 def getemployees(params)
     
