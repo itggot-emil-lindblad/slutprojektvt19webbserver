@@ -80,19 +80,17 @@ end
 # end
 
 def newpost(params)
-    # db = getdb()
     # imgname = params[:img][:filename]
     # img = params[:img][:tempfile]
-    DB[:posts].insert(PostTitle: params["PostTitle"], PostText: params["PostText"], ImgPath: params["ImgPath"])
+    DB[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgPath: "Banan")
 end
 
 # def newpost(params)
 #     db = getdb()
 #     # imgname = params[:img][:filename]
 #     # img = params[:img][:tempfile]
-#     db.execute("INSERT INTO posts(PostTitle, PostText, ImgPath) VALUES (?,?,?)",params["PostTile"],params["PostText"],params["ImgPath"])
+#     db.execute("INSERT INTO posts(PostTitle, PostText, ImgPath) VALUES (?,?,?)",params["PostTitle"],params["PostText"],params["ImgPath"])
 # end
 
-def getemployees(params)
-    
-end
+# def getemployees(params)
+# end

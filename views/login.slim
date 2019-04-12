@@ -2,6 +2,7 @@
     div.title
         h1 Prästkragens förskola
         p CMS
+    
     -if error?
         .form
             form action="/login" method="post"
@@ -10,7 +11,6 @@
                     input type="password" placeholder="Lösenord" name="PassWord"
                 input.loginbtn type="submit" value="Logga in"      
         p = get_error()
-        - flush_error()
     -else
         .form
             form action="/login" method="post"

@@ -29,15 +29,15 @@ helpers do
         session[:error] = msg
     end
     
-    def get_error()
+    def get_error()        
         error = session[:error]
+        session[:error] = nil
         return error
     end
     
-    def flush_error()
-        p "tja"
-        session[:error] = nil
-    end
+    # def flush_error()
+    #     p "tja"
+    # end
 
     def error?
         !session[:error].nil?
@@ -50,7 +50,7 @@ end
 
 get('/') do
     if session[:username] == nil
-        slim(:login)
+        slim(:login, layout: :loginlayout)
     else
         redirect('/dashboard')
     end
