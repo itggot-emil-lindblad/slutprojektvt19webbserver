@@ -57,6 +57,7 @@ button {
     border: 1px solid #c0c2c4;
     border-radius: 3px;
     transition: .3s all;
+    height: 29px;
 }
 
 button:hover {
@@ -161,6 +162,12 @@ div.logout {
     justify-content: right;
 }
 
+div.posts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
+}
+
 div.news article {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -185,8 +192,11 @@ div.news article h3 {
 
 div.news a {
     font-weight: 400;
+    text-decoration: none;
+    color: black;
 }
 
 div.news article span {
     float: right;
 }
+
