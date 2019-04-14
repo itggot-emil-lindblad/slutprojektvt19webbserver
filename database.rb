@@ -82,11 +82,15 @@ end
 def newpost(params)
     # imgname = params[:img][:filename]
     # img = params[:img][:tempfile]
-    DB[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgPath: "Banan")
+    DB[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgPath: "Banan", PostDate: Date.today)
 end
 
 def deletepost(params)
     DB[:posts].where(Id: params["id"]).delete
+end
+
+def editpost(params)
+
 end
 # def newpost(params)
 #     db = getdb()
