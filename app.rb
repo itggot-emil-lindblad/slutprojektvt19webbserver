@@ -92,6 +92,11 @@ get('/editpost/:id') do
     slim(:editpost)
 end
 
+post('/editpost/:id/delete') do
+    deletepost(params)
+    redirect('/news')
+end
+
 get('/editprofile') do
     slim(:editprofile)
 end

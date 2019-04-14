@@ -85,6 +85,9 @@ def newpost(params)
     DB[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgPath: "Banan")
 end
 
+def deletepost(params)
+    DB[:posts].where(Id: params["id"]).delete
+end
 # def newpost(params)
 #     db = getdb()
 #     # imgname = params[:img][:filename]
