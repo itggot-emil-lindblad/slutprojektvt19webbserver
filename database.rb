@@ -90,7 +90,11 @@ def deletepost(params)
 end
 
 def editpost(params)
+    DB[:posts].where(Id: params["id"])
+end
 
+def updatepost(params)
+    DB[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgPath: "Banan", PostDate: Date.today)
 end
 
 # def newpost(params)

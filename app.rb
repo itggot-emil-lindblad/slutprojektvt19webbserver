@@ -92,7 +92,16 @@ post('/newpost') do
 end
 
 get('/editpost/:id') do
-    slim(:editpost)
+    post = editpost(params)
+    slim(:editpost, locals: {
+            post: post
+        }
+    )
+end
+
+post('/editpost/:id/update') do
+    updatepost(params)
+    redirect('/news')
 end
 
 post('/editpost/:id/delete') do
