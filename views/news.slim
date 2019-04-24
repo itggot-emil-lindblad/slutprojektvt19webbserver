@@ -1,19 +1,19 @@
 .news
     button
         a href="/newpost" Nytt inlägg
-    .posts      
+    .cards    
         -newsposts.each do |element|
             article.newspost
-                    div.controls
-                        a href="/editpost/#{element[:Id]}"
-                            button
-                                i.material-icons edit
-                        span 
-                            form action="/editpost/#{element[:Id]}/delete" method="POST"
-                                button type="submit" value=""
-                                    i.material-icons delete
-                    h2 = element[:PostTitle]
-                    img src="/img/#{element[:ImgPath]}"
-                    p = element[:PostText]
-                    a href="/post/#{element[:Id]}" Läs mer
-                    span = element[:PostDate]
+                .controls
+                    a href="/editpost/#{element[:Id]}"
+                        button
+                            i.material-icons edit
+                    span 
+                        form action="/editpost/#{element[:Id]}/delete" method="POST"
+                            button type="submit" value=""
+                                i.material-icons delete
+                h2 = element[:PostTitle]
+                img src="/img/#{element[:ImgPath]}"
+                p = element[:PostText]
+                a href="/post/#{element[:Id]}" Läs mer
+                span = element[:PostDate]

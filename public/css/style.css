@@ -102,8 +102,6 @@ input.loginbtn:hover {
     transition: .5s all;
 }
 
-
-
 div.editprofile form input[type=password] {
     width: 195px;
     border-radius: 2px;
@@ -162,23 +160,6 @@ div.logout {
     justify-content: right;
 }
 
-div.posts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 10px;
-}
-
-div.news article {
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    padding: 20px;
-    line-height: 1.4em;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    margin-bottom: 30px;
-    border-radius: 5px;
-}
-
 div.news article h2 {
     text-align: center;
     margin-bottom: 5px;
@@ -198,5 +179,22 @@ div.news a {
 
 div.news article span {
     float: right;
+}
+
+div.cards article {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 20px;
+    line-height: 1.4em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+div.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
 }
 

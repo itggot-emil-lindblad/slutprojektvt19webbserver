@@ -92,6 +92,7 @@ end
 def editpost(params)
 
 end
+
 # def newpost(params)
 #     db = getdb()
 #     # imgname = params[:img][:filename]
@@ -99,5 +100,6 @@ end
 #     db.execute("INSERT INTO posts(PostTitle, PostText, ImgPath) VALUES (?,?,?)",params["PostTitle"],params["PostText"],params["ImgPath"])
 # end
 
-# def getemployees(params)
-# end
+def getemployees(params)
+    DB[:employees].all
+end

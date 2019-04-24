@@ -76,7 +76,10 @@ end
 
 get('/news') do
     newsposts = getnews(params)
-    slim(:news, locals:{newsposts: newsposts})
+    slim(:news, locals:{
+            newsposts: newsposts
+        }
+    )
 end
 
 get('/newpost') do
@@ -107,6 +110,9 @@ post('/editprofile/update') do
 end
 
 get('/employees') do
-    getemployees(params)
-    slim(:employees)
+    p employees = getemployees(params)
+    slim(:employees, locals:{
+            employees: employees
+        }
+    )
 end
