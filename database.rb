@@ -97,13 +97,14 @@ def updatepost(params)
     DB[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgPath: "Banan", PostDate: Date.today)
 end
 
-# def newpost(params)
-#     db = getdb()
-#     # imgname = params[:img][:filename]
-#     # img = params[:img][:tempfile]
-#     db.execute("INSERT INTO posts(PostTitle, PostText, ImgPath) VALUES (?,?,?)",params["PostTitle"],params["PostText"],params["ImgPath"])
-# end
-
 def getemployees(params)
     DB[:employees].all
+end
+
+def newemployee(params)
+    DB[:employees].insert(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}")
+end
+
+def editemployee(params)
+    DB[:employees].where(Id: params["id"])
 end

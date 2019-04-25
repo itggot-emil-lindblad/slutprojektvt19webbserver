@@ -119,9 +119,26 @@ post('/editprofile/update') do
 end
 
 get('/employees') do
-    p employees = getemployees(params)
+    employees = getemployees(params)
     slim(:employees, locals:{
             employees: employees
+        }
+    )
+end
+
+get('/newemployee') do
+    slim(:newemployee)
+end
+
+post('/newemployee') do
+    newemployee(params)
+    redirect('/employees')
+end
+
+get('/editempolyee/:id') do
+    employee = editempolyee(params)
+    slim(:editempolyee, locals:{
+            employee: employee
         }
     )
 end
