@@ -108,3 +108,7 @@ end
 def editemployee(params)
     DB[:employees].where(Id: params["id"])
 end
+
+def updateemployee(params)
+    DB[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}")
+end

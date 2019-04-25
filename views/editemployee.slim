@@ -1,0 +1,16 @@
+.editemployee
+    -employee.each do |element|
+        h1 Redigera personal profil
+        form action="/editemployee/#{element[:Id]}/update" method="POST" enctype="multipart/form-data"
+            p Förnamn
+            input type="text" name="FirstName" value="#{element[:FirstName]}"
+            p Efternamn
+            input type="text" name="LastName" value="#{element[:LastName]}"
+            p Email
+            input type="text" name="Email" value="#{element[:Email]}"
+            p Telefon
+            input type="text" name="Phone" value="#{element[:Phone]}"
+            p Information
+            input type="text" name="Info" value="#{element[:Info]}"
+            p 
+            input type="submit" value="Uppdatera"

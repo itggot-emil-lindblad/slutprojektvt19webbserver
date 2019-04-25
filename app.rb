@@ -135,10 +135,15 @@ post('/newemployee') do
     redirect('/employees')
 end
 
-get('/editempolyee/:id') do
-    employee = editempolyee(params)
-    slim(:editempolyee, locals:{
+get('/editemployee/:id') do
+    employee = editemployee(params)
+    slim(:editemployee, locals:{
             employee: employee
         }
     )
+end
+
+post('/editemployee/:id/update') do
+    updateemployee(params)
+    redirect('/employees')
 end
