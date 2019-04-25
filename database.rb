@@ -112,3 +112,7 @@ end
 def updateemployee(params)
     DB[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}")
 end
+
+def removeemployee(params)
+    DB[:employees].where(Id: params["id"]).delete
+end

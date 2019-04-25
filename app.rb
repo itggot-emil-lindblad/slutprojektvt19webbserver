@@ -147,3 +147,8 @@ post('/editemployee/:id/update') do
     updateemployee(params)
     redirect('/employees')
 end
+
+post('/editemployee/:id/delete') do
+    removeemployee(params)
+    redirect('/employees')
+end
