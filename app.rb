@@ -1,13 +1,13 @@
 require 'sinatra'
-require 'sqlite3'
-require 'slim'
-require 'bcrypt'
-require 'securerandom'
-require 'sequel'
-require 'byebug'
+# require 'sqlite3'
+# require 'slim'
+# require 'bcrypt'
+# require 'securerandom'
+# require 'sequel'
+# require 'byebug'
 require_relative 'database.rb'
+require_relative 'render.rb'
 enable :sessions
-
 
 configure do
     set :bind, '0.0.0.0'
