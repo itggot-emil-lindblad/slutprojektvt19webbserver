@@ -1,5 +1,5 @@
 def connect 
-     Sequel.connect('sqlite://db/data.db')
+     Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/data.db')
 end
 
 def checkpassword(pw,dbpw)
