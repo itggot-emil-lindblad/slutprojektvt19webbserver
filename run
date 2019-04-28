@@ -1,2 +1,2 @@
-rerun --pattern "*.rb" ruby app.rb
+rerun -- rackup --port 4567 config.ru
 
