@@ -9,10 +9,12 @@ end
 namespace :db do
     task :seed do
         db = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/data.db')        
-        db.create_table :users do
+        db.create_table :posts do
             primary_key :Id
-            String :UserName
-            String :Hash
+            String :PostTitle, null: false
+            String :PostText, null: false
+            String :ImgPath
+            String :PostDate, null: false
         end
     end
 

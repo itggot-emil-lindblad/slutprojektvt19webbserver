@@ -1,10 +1,4 @@
 require 'sinatra'
-# require 'sqlite3'
-# require 'slim'
-# require 'bcrypt'
-# require 'securerandom'
-# require 'sequel'
-# require 'byebug'
 require_relative 'database.rb'
 require_relative 'render.rb'
 enable :sessions
@@ -34,10 +28,6 @@ helpers do
         session[:error] = nil
         return error
     end
-    
-    # def flush_error()
-    #     p "tja"
-    # end
 
     def error?
         !session[:error].nil?
