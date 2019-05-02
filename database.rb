@@ -55,9 +55,7 @@ end
 
 def getnews(params)
     db = connect()
-    out = db[:posts].join(:images, :Id => :ImgId).order(Sequel.desc(:Id))
-    # byebug
-    return out
+    return db[:posts].join(:images, :Id => :ImgId).order(Sequel.desc(:Id))
 end
 
 def newpost(params)
@@ -83,7 +81,7 @@ end
 
 def getemployees(params)
     db = connect()
-    db[:employees].all
+    db[:employees].join(:images, :Id => :ImgId)
 end
 
 def newemployee(params)

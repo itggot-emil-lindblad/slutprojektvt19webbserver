@@ -8,6 +8,10 @@ body {
     color: white;
 }
 
+img {
+    max-height: 300px;
+}
+
 p {
     font-weight: 300;
 }
