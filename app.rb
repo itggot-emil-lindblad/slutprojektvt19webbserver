@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'securerandom'
 require_relative 'database.rb'
 require_relative 'render.rb'
 enable :sessions

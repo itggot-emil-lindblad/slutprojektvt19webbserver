@@ -10,6 +10,20 @@ def checkpassword(pw,dbpw)
     end
 end
 
+def newimg(params)
+    db = connect()
+    imgname = params[:img][:filename]
+    img = params[:img][:tempfile]
+    # if imgname.include?(".png") or imgname.include?(".jpg")
+        newname = SecureRandom.hex(10) + imgname.match(/.(jpg|bmp|png|jpeg)$/)[0]
+        File.open("public/img/#{newname}", 'wb') do |f|
+            f.write(img.read)
+        end
+    # end
+    db[:images].insert(Path: "#{newname}")
+    return db[:images].where(Path: "#{newname}").get(:Id)
+end
+
 def login(params)
     db = connect()
     result = db[:users].first(:UserName => params["UserName"])
@@ -41,14 +55,15 @@ end
 
 def getnews(params)
     db = connect()
-    return db[:posts].order(Sequel.desc(:Id))
+    out = db[:posts].join(:images, :Id => :ImgId).order(Sequel.desc(:Id))
+    # byebug
+    return out
 end
 
 def newpost(params)
     db = connect()
-    # imgname = params[:img][:filename]
-    # img = params[:img][:tempfile]
-    db[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgPath: "Banan", PostDate: Date.today)
+    imgid = newimg(params)
+    db[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{imgid}", PostDate: Date.today)
 end
 
 def deletepost(params)
