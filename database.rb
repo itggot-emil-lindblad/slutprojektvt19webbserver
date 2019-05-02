@@ -21,7 +21,7 @@ def newimg(params)
         end
     # end
     db[:images].insert(Path: "#{newname}")
-    return db[:images].where(Path: "#{newname}").get(:Id)
+    return db[:images].where(Path: "#{newname}").get(:ImgId)
 end
 
 def login(params)
@@ -55,7 +55,7 @@ end
 
 def getnews(params)
     db = connect()
-    return db[:posts].join(:images, :Id => :ImgId).order(Sequel.desc(:Id))
+    return db[:posts].join(:images, :ImgId => :ImgId).order(Sequel.desc(:Id))
 end
 
 def newpost(params)
@@ -71,17 +71,22 @@ end
 
 def editpost(params)
     db = connect()
-    db[:posts].where(Id: params["id"])
+    db[:posts].join(:images, :ImgId => :ImgId).where(Id: params["id"])
 end
 
 def updatepost(params)
     db = connect()
-    db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgPath: "Banan", PostDate: Date.today)
+    if params[:img] != nil
+        imgid = newimg(params)
+        db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{imgid}", PostDate: Date.today)
+    else
+        db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", PostDate: Date.today)
+    end
 end
 
 def getemployees(params)
     db = connect()
-    db[:employees].join(:images, :Id => :ImgId)
+    db[:employees].join(:images, :ImgId => :ImgId)
 end
 
 def newemployee(params)
