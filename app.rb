@@ -110,8 +110,15 @@ get('/editprofile') do
 end
 
 post('/editprofile/update') do 
-    editprofile(params)
-    redirect('/dashboard')
+    if editemployee(params) == true
+        redirect('/dashboard')  
+    elsif editprofile(params) == "Nomatch"
+        set_error("Nya lösenorden matchar inte!")
+        redirect('/editprofile')
+    elsif editprofile(params) == "Wrong pw"
+        set_error("Fel nuvarade lösenord!")
+        redirect('/editprofile')
+    end
 end
 
 get('/employees') do

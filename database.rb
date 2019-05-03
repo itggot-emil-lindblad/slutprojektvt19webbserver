@@ -51,15 +51,16 @@ def editprofile(params)
     db = connect()
     dbhash = db[:users].first(:Id => 1)
     if checkpassword(params["oldpw"],dbhash[:Hash]) == true
-        if params["newpw1"] == params["newpw1"]
+        # byebug
+        if params["newpw1"] == params["newpw2"]
             hash = BCrypt::Password.create(params["newpw2"])
             db[:users].where(Id: 1).update(Hash: hash)
             return true
         else
-            return false
+            return "Nomatch"
         end
     else
-        return false
+        return "Wrong pw"
     end
 end
 

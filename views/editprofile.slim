@@ -1,11 +1,24 @@
 .editprofile
-    h1 Ändra lösenord
-    form action="/editprofile/update" method="POST"
-        p Nuvarande lösenord
-        input.field type="password" name="oldpw"
-        p Nytt lösenord
-        input.field type="password" name="newpw1"
-        p Bekräfta nytt lösenord
-        input.field type="password" name="newpw2"
-        p
-        input.btn type="submit" value="Byt lösenord"
+    -if error?
+        h1 Ändra lösenord
+        form action="/editprofile/update" method="POST"
+            p Nuvarande lösenord
+            input.field type="password" name="oldpw"
+            p Nytt lösenord
+            input.field type="password" name="newpw1"
+            p Bekräfta nytt lösenord
+            input.field type="password" name="newpw2"
+            p
+            input.btn type="submit" value="Byt lösenord"
+            p = get_error()
+    -else
+        h1 Ändra lösenord
+        form action="/editprofile/update" method="POST"
+            p Nuvarande lösenord
+            input.field type="password" name="oldpw"
+            p Nytt lösenord
+            input.field type="password" name="newpw1"
+            p Bekräfta nytt lösenord
+            input.field type="password" name="newpw2"
+            p
+            input.btn type="submit" value="Byt lösenord"
