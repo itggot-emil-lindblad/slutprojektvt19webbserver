@@ -14,20 +14,20 @@ def newimg(params)
     db = connect()
     imgname = params[:img][:filename]
     img = params[:img][:tempfile]
-    # "str" =~ /t/
-    # if imgname.include?(".png") or imgname.include?(".jpg")
+    validate = imgname =~ /.(jpg|bmp|png|jpeg)$/
+    if validate != nil
         newname = SecureRandom.hex(10) + imgname.match(/.(jpg|bmp|png|jpeg)$/)[0]
         File.open("public/img/#{newname}", 'wb') do |f|
             f.write(img.read)
         end
-    # end
+    end
     db[:images].insert(Path: "#{newname}")
     return db[:images].where(Path: "#{newname}").get(:ImgId)
 end
 
 def validate(params)
     params.values.each do |element|
-        if element = ""
+        if element == ""
             return false
         end
     end
