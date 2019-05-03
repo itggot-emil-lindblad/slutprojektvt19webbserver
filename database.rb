@@ -14,7 +14,7 @@ def newimg(params)
     db = connect()
     imgname = params[:img][:filename]
     img = params[:img][:tempfile]
-    "str" =~ /t/
+    # "str" =~ /t/
     # if imgname.include?(".png") or imgname.include?(".jpg")
         newname = SecureRandom.hex(10) + imgname.match(/.(jpg|bmp|png|jpeg)$/)[0]
         File.open("public/img/#{newname}", 'wb') do |f|
