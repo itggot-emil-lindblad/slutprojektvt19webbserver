@@ -78,8 +78,13 @@ get('/newpost') do
 end
 
 post('/newpost') do
-    newpost(params)
-    redirect('/news')
+    if validate(params) == true
+        newpost(params)
+        redirect('/news')
+    else
+        set_error("Vänligen fyll i alla fält")
+        redirect('/newpost')
+    end
 end
 
 get('/editpost/:id') do
@@ -122,8 +127,13 @@ get('/newemployee') do
 end
 
 post('/newemployee') do
-    newemployee(params)
-    redirect('/employees')
+    if validate(params) == true
+        newemployee(params)
+        redirect('/employees')
+    else
+        set_error("Vänligen fyll i alla fält")
+        redirect('/newemployee')
+    end
 end
 
 get('/editemployee/:id') do

@@ -1,17 +1,36 @@
 .newemployee
-    h1 Ny personalprofil
-    form action="/newemployee" method="POST" enctype="multipart/form-data"
-        p Ladda upp bild
-        input type="file" name="img" accept="image/*"
-        p Förnamn
-        input type="text" name="FirstName"
-        p Efternamn
-        input type="text" name="LastName"
-        p Email
-        input type="text" name="Email"
-        p Telefon
-        input type="text" name="Phone"
-        p Information
-        input type="text" name="Info"
-        p 
-        input type="submit" value="Lägg upp"
+    -if error?
+        h1 Ny personalprofil
+        form action="/newemployee" method="POST" enctype="multipart/form-data"
+            p Ladda upp bild
+            input type="file" name="img" accept="image/*"
+            p Förnamn
+            input type="text" name="FirstName"
+            p Efternamn
+            input type="text" name="LastName"
+            p Email
+            input type="text" name="Email"
+            p Telefon
+            input type="text" name="Phone"
+            p Information
+            input type="text" name="Info"
+            p 
+            input type="submit" value="Lägg upp"
+            p = get_error()
+    -else
+        h1 Ny personalprofil
+        form action="/newemployee" method="POST" enctype="multipart/form-data"
+            p Ladda upp bild
+            input type="file" name="img" accept="image/*"
+            p Förnamn
+            input type="text" name="FirstName"
+            p Efternamn
+            input type="text" name="LastName"
+            p Email
+            input type="text" name="Email"
+            p Telefon
+            input type="text" name="Phone"
+            p Information
+            input type="text" name="Info"
+            p 
+            input type="submit" value="Lägg upp"

@@ -14,6 +14,7 @@ def newimg(params)
     db = connect()
     imgname = params[:img][:filename]
     img = params[:img][:tempfile]
+    "str" =~ /t/
     # if imgname.include?(".png") or imgname.include?(".jpg")
         newname = SecureRandom.hex(10) + imgname.match(/.(jpg|bmp|png|jpeg)$/)[0]
         File.open("public/img/#{newname}", 'wb') do |f|
@@ -22,6 +23,15 @@ def newimg(params)
     # end
     db[:images].insert(Path: "#{newname}")
     return db[:images].where(Path: "#{newname}").get(:ImgId)
+end
+
+def validate(params)
+    params.values.each do |element|
+        if element = ""
+            return false
+        end
+    end
+    return true
 end
 
 def login(params)

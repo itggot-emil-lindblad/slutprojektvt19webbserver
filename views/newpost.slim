@@ -1,12 +1,24 @@
 .newpost
-    h1 Nytt inlägg
-    form action="/newpost" method="POST" enctype="multipart/form-data"
-        p Rubrik
-        input type="text" name="PostTitle"
-        p Text
-        textarea name="PostText" cols="30" rows="10" 
-        p Ladda upp bild
-        input type="file" name="img" accept="image/*"
-        p 
-        input type="submit" value="Lägg upp"
-
+    -if error?
+        h1 Nytt inlägg
+        form action="/newpost" method="POST" enctype="multipart/form-data"
+            p Rubrik
+            input type="text" name="PostTitle"
+            p Text
+            textarea name="PostText" cols="30" rows="10" 
+            p Ladda upp bild
+            input type="file" name="img" accept="image/*"
+            p 
+            input type="submit" value="Lägg upp"
+            p = get_error()
+    -else
+        h1 Nytt inlägg
+        form action="/newpost" method="POST" enctype="multipart/form-data"
+            p Rubrik
+            input type="text" name="PostTitle"
+            p Text
+            textarea name="PostText" cols="30" rows="10" 
+            p Ladda upp bild
+            input type="file" name="img" accept="image/*"
+            p 
+            input type="submit" value="Lägg upp"
