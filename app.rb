@@ -39,6 +39,8 @@ error 401 do
     'Unauthorized!'
 end
 
+include Model
+
 get('/') do
     if session[:username] == nil
         slim(:login, layout: :loginlayout)
@@ -48,7 +50,8 @@ get('/') do
 end
 
 post('/login') do
-    if login(params) == true
+    if login(params) != false
+        session[:username] = login(params)[:UserName]
         redirect('/dashboard')
     else
         set_error("Fel användarnamn eller lösenord!")
