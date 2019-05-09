@@ -118,6 +118,7 @@ end
 # Displays a form for editing a specific post
 #
 # @param [Integer] :id, The ID of the post
+#
 # @see Model#editpost
 get('/editpost/:id') do
     post = editpost(params)
@@ -137,6 +138,7 @@ end
 # @see Model#validate
 # @see Model#update
 post('/editpost/:id/update') do
+    #TODO add validation
     updatepost(params)
     redirect('/news')
 end
@@ -144,6 +146,7 @@ end
 # Deletes a post
 #
 # @param [Integer] :id, The ID of the post
+#
 # @see Model#deletepost
 post('/editpost/:id/delete') do
     deletepost(params)
@@ -179,12 +182,22 @@ get('/employees') do
     )
 end
 
-# Displays a form for creating a new employee
+# Displays a form for creating a new employee profile
 #
 get('/newemployee') do
     slim(:newemployee)
 end
 
+# Validates the input and attempts to create a new employee profile
+#
+# @param [String] FirstName, The first name of the employee
+# @param [String] LastName, The last name of the employee 
+# @param [String] Email, The email of the employee
+# @param [String] Phone, The phone number of the employee
+# @param [String] Info, General information of the employee
+#
+# @see Model#validate
+# @see Model#newemployee
 post('/newemployee') do
     if validate(params) == true
         newemployee(params)
@@ -195,9 +208,10 @@ post('/newemployee') do
     end
 end
 
-# Displays a form for editing a specific employee
+# Displays a form for editing a specific employee profile
 #
 # @param [Integer] :id, The ID of the employee
+#
 # @ see Model#editemployee
 get('/editemployee/:id') do
     employee = editemployee(params)
@@ -207,11 +221,27 @@ get('/editemployee/:id') do
     )
 end
 
+# Validates the input and attempts to edit a specific employee profile
+#
+# @param [Integer] :id, The id of the employee profile
+# @param [String] FirstName, The first name of the employee
+# @param [String] LastName, The last name of the employee 
+# @param [String] Email, The email of the employee
+# @param [String] Phone, The phone number of the employee
+# @param [String] Info, General information of the employee
+#
+# @see Model#validate
+# @see Model#updateemployee
 post('/editemployee/:id/update') do
     updateemployee(params)
     redirect('/employees')
 end
 
+# Deletes an employee profile
+#
+# @param [Integer] :id, The ID of the employee profile
+#
+# @see Model#deletepost
 post('/editemployee/:id/delete') do
     removeemployee(params)
     redirect('/employees')
