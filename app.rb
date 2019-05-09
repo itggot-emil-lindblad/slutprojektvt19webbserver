@@ -41,6 +41,8 @@ end
 
 include Model
 
+# Display landing page
+#
 get('/') do
     if session[:username] == nil
         slim(:login, layout: :loginlayout)
@@ -49,6 +51,12 @@ get('/') do
     end
 end
 
+# Attempts to login and updates the session
+#
+# @param [String] UserName, The username
+# @param [String] PassWord, The password
+#
+# @see Model#login
 post('/login') do
     if login(params) != false
         session[:username] = login(params)[:UserName]
@@ -59,15 +67,22 @@ post('/login') do
     end
 end
 
+# Displays main page when authenticated
+#
 get('/dashboard') do
     slim(:index)
 end
 
+# Kills the session and logs out
+#
 post('/logout') do
     session.destroy
     redirect('/')
 end
 
+# Displays news page
+#
+# @see Model#getnews
 get('/news') do
     newsposts = getnews(params)
     slim(:news, locals:{
@@ -76,10 +91,20 @@ get('/news') do
     )
 end
 
+# Displays a form for creating a new post
+#
 get('/newpost') do
     slim(:newpost)
 end
 
+# Validates the input and attempts to create a new post
+#
+# @param [String] PostTitle, The post title
+# @param [String] PostText, The post text
+# @param [File] img, A uploaded image
+#
+# @see Model#validate
+# @see Model#newpost
 post('/newpost') do
     if validate(params) == true
         newpost(params)
@@ -90,6 +115,10 @@ post('/newpost') do
     end
 end
 
+# Displays a form for editing a specific post
+#
+# @param [Integer] :id, The ID of the post
+# @see Model#editpost
 get('/editpost/:id') do
     post = editpost(params)
     slim(:editpost, locals: {
@@ -98,25 +127,50 @@ get('/editpost/:id') do
     )
 end
 
+# Validates the input and attempts to edit a specific new post
+#
+# @param [Integer] :id, The ID of the post
+# @param [String] PostTitle, The post title
+# @param [String] PostText, The post text
+# @param [String] img, A uploaded image
+#
+# @see Model#validate
+# @see Model#update
 post('/editpost/:id/update') do
     updatepost(params)
     redirect('/news')
 end
 
+# Deletes a post
+#
+# @param [Integer] :id, The ID of the post
+# @see Model#deletepost
 post('/editpost/:id/delete') do
     deletepost(params)
     redirect('/news')
 end
 
+# Displays a form for chaning login password
+#
 get('/editprofile') do
     slim(:editprofile)
 end
 
+# Changes login password
+#
+# @param [String] oldpw, The old password
+# @params [String] newpw1, The new password
+# @params [String] newpw2, The repated new password
+#
+# @see Model#editprofile
 post('/editprofile/update') do 
     editprofile(params)
     redirect('/dashboard')
 end
 
+# Displays a page with all employees
+#
+# @see Model#getemployees
 get('/employees') do
     employees = getemployees(params)
     slim(:employees, locals:{
@@ -125,6 +179,8 @@ get('/employees') do
     )
 end
 
+# Displays a form for creating a new employee
+#
 get('/newemployee') do
     slim(:newemployee)
 end
@@ -139,6 +195,10 @@ post('/newemployee') do
     end
 end
 
+# Displays a form for editing a specific employee
+#
+# @param [Integer] :id, The ID of the employee
+# @ see Model#editemployee
 get('/editemployee/:id') do
     employee = editemployee(params)
     slim(:editemployee, locals:{
