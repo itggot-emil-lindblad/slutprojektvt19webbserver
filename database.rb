@@ -2,11 +2,26 @@ module Model
     def connect 
         Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/data.db')
     end
+end
 
-    def checkpassword(pw,dbpw)
-        if BCrypt::Password.new(dbpw) == pw
-            return true
-        else
+def newimg(params)
+    db = connect()
+    imgname = params[:img][:filename]
+    img = params[:img][:tempfile]
+    validate = imgname =~ /.(jpg|bmp|png|jpeg)$/
+    if validate != nil
+        newname = SecureRandom.hex(10) + imgname.match(/.(jpg|bmp|png|jpeg)$/)[0]
+        File.open("public/img/#{newname}", 'wb') do |f|
+            f.write(img.read)
+        end
+    end
+    db[:images].insert(Path: "#{newname}")
+    return db[:images].where(Path: "#{newname}").get(:ImgId)
+end
+
+def validate(params)
+    params.values.each do |element|
+        if element == ""
             return false
         end
     end
@@ -35,18 +50,12 @@ module Model
         return true
     end
 
-    def login(params)
-        db = connect()
-        result = db[:users].first(:UserName => params["UserName"])
-        if result == nil
-            return false
-        elsif checkpassword(params["PassWord"],result[:Hash]) == true
-            return result
         else
-            return false
+            return "Nomatch"
         end
+    else
+        return "Wrong pw"
     end
-
     def editprofile(params)
         db = connect()
         dbhash = db[:users].first(:Id => 1)
