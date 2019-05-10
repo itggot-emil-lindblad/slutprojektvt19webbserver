@@ -2,26 +2,11 @@ module Model
     def connect 
         Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/data.db')
     end
-end
 
-def newimg(params)
-    db = connect()
-    imgname = params[:img][:filename]
-    img = params[:img][:tempfile]
-    validate = imgname =~ /.(jpg|bmp|png|jpeg)$/
-    if validate != nil
-        newname = SecureRandom.hex(10) + imgname.match(/.(jpg|bmp|png|jpeg)$/)[0]
-        File.open("public/img/#{newname}", 'wb') do |f|
-            f.write(img.read)
-        end
-    end
-    db[:images].insert(Path: "#{newname}")
-    return db[:images].where(Path: "#{newname}").get(:ImgId)
-end
-
-def validate(params)
-    params.values.each do |element|
-        if element == ""
+    def checkpassword(pw,dbpw)
+        if BCrypt::Password.new(dbpw) == pw
+            return true
+        else
             return false
         end
     end
@@ -30,13 +15,13 @@ def validate(params)
         db = connect()
         imgname = params[:img][:filename]
         img = params[:img][:tempfile]
-        # "str" =~ /t/
-        # if imgname.include?(".png") or imgname.include?(".jpg")
+        imgvalidate = imgname =~ /.(jpg|bmp|png|jpeg)$/
+        if imgvalidate != nil
             newname = SecureRandom.hex(10) + imgname.match(/.(jpg|bmp|png|jpeg)$/)[0]
             File.open("public/img/#{newname}", 'wb') do |f|
                 f.write(img.read)
             end
-        # end
+        end
         db[:images].insert(Path: "#{newname}")
         return db[:images].where(Path: "#{newname}").get(:ImgId)
     end
@@ -50,25 +35,19 @@ def validate(params)
         return true
     end
 
-        else
-            return "Nomatch"
-        end
-    else
-        return "Wrong pw"
-    end
     def editprofile(params)
         db = connect()
         dbhash = db[:users].first(:Id => 1)
         if checkpassword(params["oldpw"],dbhash[:Hash]) == true
-            if params["newpw1"] == params["newpw1"]
+            if params["newpw1"] == params["newpw2"]
                 hash = BCrypt::Password.create(params["newpw2"])
                 db[:users].where(Id: 1).update(Hash: hash)
                 return true
             else
-                return false
+                return "Nomatch"
             end
         else
-            return false
+            return "Wrong pw"
         end
     end
 
