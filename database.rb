@@ -1,8 +1,17 @@
 module Model
+    # Loads the databse
+    #
     def connect 
         Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/data.db')
     end
 
+    # Hashes inputpassword and compares it to the hash in database
+    #
+    # @param [String] pw The password from user input
+    # @param [String] dbpw The hash from database
+    #
+    # @return [TrueClass] If the passwords match
+    # @return [FalseClass] If the passwords dont match
     def checkpassword(pw,dbpw)
         if BCrypt::Password.new(dbpw) == pw
             return true
@@ -11,6 +20,9 @@ module Model
         end
     end
 
+    # Validates an img file, writes the file and inserts the path to the datebase
+    #
+    # @param [Hash] params 
     def newimg(params)
         db = connect()
         imgname = params[:img][:filename]
@@ -33,6 +45,18 @@ module Model
             end
         end
         return true
+    end
+
+    def login(params)
+        db = connect()
+        result = db[:users].first(:UserName => params["UserName"])
+        if result == nil
+            return false
+        elsif checkpassword(params["PassWord"],result[:Hash]) == true
+            return result[:UserName]
+        else
+            return false
+        end
     end
 
     def editprofile(params)

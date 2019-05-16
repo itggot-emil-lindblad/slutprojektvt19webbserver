@@ -58,8 +58,9 @@ end
 #
 # @see Model#login
 post('/login') do
-    if login(params) != false
-        session[:username] = login(params)[:UserName]
+    login = login(params)
+    if login != false
+        session[:username] = login
         redirect('/dashboard')
     else
         set_error("Fel användarnamn eller lösenord!")
@@ -97,13 +98,12 @@ get('/newpost') do
     slim(:newpost)
 end
 
-# Validates the input and attempts to create a new post
+# Takes input and attempts to create a new post
 #
 # @param [String] PostTitle, The post title
 # @param [String] PostText, The post text
 # @param [File] img, A uploaded image
 #
-# @see Model#validate
 # @see Model#newpost
 post('/newpost') do
     if validate(params) == true
@@ -128,14 +128,13 @@ get('/editpost/:id') do
     )
 end
 
-# Validates the input and attempts to edit a specific new post
+# Takes input and attempts to edit a specific new post
 #
 # @param [Integer] :id, The ID of the post
 # @param [String] PostTitle, The post title
 # @param [String] PostText, The post text
 # @param [String] img, A uploaded image
 #
-# @see Model#validate
 # @see Model#update
 post('/editpost/:id/update') do
     #TODO add validation
@@ -166,15 +165,14 @@ end
 # @params [String] newpw2, The repated new password
 #
 # @see Model#editprofile
-post('/editprofile/update') do 
-    if editemployee(params) == true
-        redirect('/dashboard')  
-    elsif editprofile(params) == "Nomatch"
-        set_error("Nya lösenorden matchar inte!")
-        redirect('/editprofile')
-    elsif editprofile(params) == "Wrong pw"
-        set_error("Fel nuvarade lösenord!")
-        redirect('/editprofile')
+post('/editprofile/update') do
+    output = editprofile(params)
+    if output != true
+        set_error(output)
+        redirect(back)
+    else
+        set_error("Lösenordsbyte lyckades!")
+        redirect(back)
     end
 end
 
@@ -195,7 +193,7 @@ get('/newemployee') do
     slim(:newemployee)
 end
 
-# Validates the input and attempts to create a new employee profile
+# Takes input and attempts to create a new employee profile
 #
 # @param [String] FirstName, The first name of the employee
 # @param [String] LastName, The last name of the employee 
@@ -203,7 +201,6 @@ end
 # @param [String] Phone, The phone number of the employee
 # @param [String] Info, General information of the employee
 #
-# @see Model#validate
 # @see Model#newemployee
 post('/newemployee') do
     if validate(params) == true
@@ -228,7 +225,7 @@ get('/editemployee/:id') do
     )
 end
 
-# Validates the input and attempts to edit a specific employee profile
+# Takes input and attempts to edit a specific employee profile
 #
 # @param [Integer] :id, The id of the employee profile
 # @param [String] FirstName, The first name of the employee
@@ -237,7 +234,6 @@ end
 # @param [String] Phone, The phone number of the employee
 # @param [String] Info, General information of the employee
 #
-# @see Model#validate
 # @see Model#updateemployee
 post('/editemployee/:id/update') do
     updateemployee(params)
