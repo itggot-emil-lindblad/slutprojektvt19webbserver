@@ -133,6 +133,7 @@ module Model
         else
             db[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}")
         end
+        # return true
     end
 
     def removeemployee(params)
@@ -143,7 +144,7 @@ module Model
     #-------------------------------------------------------------
     
     #---------------------------Posts------------------------------------
-    def validatepost(params)
+    def validate_post(params)
         val = {}
         val[:titlevalidate] = params["PostTitle"] =~ /^[a-öA-ÖåäöÅÄÖ]+$/
         if params["PostText"].strip.empty? == true
@@ -165,7 +166,7 @@ module Model
 
     def newpost(params)
         db = connect()
-        result = validatepost(params)
+        result = validate_post(params)
         img = newimg(params)
         if result != true
             return result
@@ -189,12 +190,17 @@ module Model
 
     def updatepost(params)
         db = connect()
+        result = validate_post(params)
+        if result != true
+            return result
+        end
         if params[:img] != nil
             imgid = newimg(params)
             db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{imgid}", PostDate: Date.today)
         else
             db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", PostDate: Date.today)
         end
+        return true
     end
     #---------------------------------------------------------
 end

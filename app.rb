@@ -137,9 +137,13 @@ end
 #
 # @see Model#update
 post('/editpost/:id/update') do
-    #TODO add validation
-    updatepost(params)
-    redirect('/news')
+    result = updatepost(params)
+    if result == true
+        redirect('/news')
+    else
+        set_error(result)
+        redirect(back)
+    end
 end
 
 # Deletes a post

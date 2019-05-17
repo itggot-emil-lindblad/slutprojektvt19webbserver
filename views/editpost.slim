@@ -1,13 +1,26 @@
 .editpost
-    -post.each do |element|
-        h1 = "Redigera inlägg #{element[:PostTitle]}"
-        form action="/editpost/#{element[:Id]}/update" method="POST" enctype="multipart/form-data"
-            p Rubrik
-            input type="text" name="PostTitle" value="#{element[:PostTitle]}"
-            p Text
-            textarea name="PostText" cols="30" rows="10" = element[:PostText]
-            p Ladda upp bild
-            input type="file" name="img" accept="image/*" value="#{element[:ImgPath]}"
-            p 
-            input type="submit" value="Redigera"
-
+    -if error?
+        -post.each do |element|
+            h1 = "Redigera inlägg #{element[:PostTitle]}"
+            form action="/editpost/#{element[:Id]}/update" method="POST" enctype="multipart/form-data"
+                p Rubrik
+                input type="text" name="PostTitle" value="#{element[:PostTitle]}"
+                p Text
+                textarea name="PostText" cols="30" rows="10" = element[:PostText]
+                p Ladda upp bild
+                input type="file" name="img" accept="image/*" value="#{element[:ImgPath]}"
+                p 
+                input type="submit" value="Redigera"
+                p = get_error()
+    -else
+        -post.each do |element|
+            h1 = "Redigera inlägg #{element[:PostTitle]}"
+            form action="/editpost/#{element[:Id]}/update" method="POST" enctype="multipart/form-data"
+                p Rubrik
+                input type="text" name="PostTitle" value="#{element[:PostTitle]}"
+                p Text
+                textarea name="PostText" cols="30" rows="10" = element[:PostText]
+                p Ladda upp bild
+                input type="file" name="img" accept="image/*" value="#{element[:ImgPath]}"
+                p 
+                input type="submit" value="Redigera"
