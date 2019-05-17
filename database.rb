@@ -40,7 +40,7 @@ module Model
         db[:images].insert(Path: "#{newname}")
         return db[:images].where(Path: "#{newname}").get(:ImgId)
     end
-
+    
     def validate(params)
         params.values.each do |element|
             if element == nil
@@ -48,6 +48,34 @@ module Model
             end
         end
         return true
+    end
+
+    def login(params)
+        db = connect()
+        result = db[:users].first(:UserName => params["UserName"])
+        if result == nil
+            return false
+        elsif checkpassword(params["PassWord"],result[:Hash]) == true
+            return result[:UserName]
+        else
+            return false
+        end
+    end
+
+    def editprofile(params)
+        db = connect()
+        dbhash = db[:users].first(:Id => 1)
+        if checkpassword(params["oldpw"],dbhash[:Hash]) == true
+            if params["newpw1"] == params["newpw2"]
+                hash = BCrypt::Password.create(params["newpw2"])
+                db[:users].where(Id: 1).update(Hash: hash)
+                return true
+            else
+                return "Nomatch"
+            end
+        else
+            return "Wrong pw"
+        end
     end
     # -------------------------Employees-------------------------
 
@@ -83,8 +111,7 @@ module Model
         elsif img == false
             return "Vänligen ladda upp en bild!"
         else
-            imgid = img
-            db[:employees].insert(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}", ImgId: "#{imgid}")
+            db[:employees].insert(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}", ImgId: "#{img}")
             return true
         end
     end
@@ -112,34 +139,22 @@ module Model
         db = connect()
         db[:employees].where(Id: params["id"]).delete
     end
-end
+
     #-------------------------------------------------------------
-
-    def login(params)
-        db = connect()
-        result = db[:users].first(:UserName => params["UserName"])
-        if result == nil
-            return false
-        elsif checkpassword(params["PassWord"],result[:Hash]) == true
-            return result[:UserName]
+    
+    #---------------------------Posts------------------------------------
+    def validatepost(params)
+        val = {}
+        val[:titlevalidate] = params["PostTitle"] =~ /^[a-öA-ÖåäöÅÄÖ]+$/
+        if params["PostText"].strip.empty? == true
+            val[:textvalidate] = nil
         else
-            return false
+            val[:textvalidate] = 0
         end
-    end
-
-    def editprofile(params)
-        db = connect()
-        dbhash = db[:users].first(:Id => 1)
-        if checkpassword(params["oldpw"],dbhash[:Hash]) == true
-            if params["newpw1"] == params["newpw2"]
-                hash = BCrypt::Password.create(params["newpw2"])
-                db[:users].where(Id: 1).update(Hash: hash)
-                return true
-            else
-                return "Nomatch"
-            end
+        if validate(val) == false
+            return "Vänligen fyll i alla fält korrekt!"
         else
-            return "Wrong pw"
+            return true
         end
     end
 
@@ -150,8 +165,16 @@ end
 
     def newpost(params)
         db = connect()
-        imgid = newimg(params)
-        db[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{imgid}", PostDate: Date.today)
+        result = validatepost(params)
+        img = newimg(params)
+        if result != true
+            return result
+        elsif img == false
+            return "Vänligen ladda upp en bild!"
+        else
+            db[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{img}", PostDate: Date.today)
+            return true
+        end
     end
 
     def deletepost(params)
@@ -173,3 +196,5 @@ end
             db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", PostDate: Date.today)
         end
     end
+    #---------------------------------------------------------
+end

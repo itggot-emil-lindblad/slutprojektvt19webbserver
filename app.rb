@@ -106,11 +106,11 @@ end
 #
 # @see Model#newpost
 post('/newpost') do
-    if validate(params) == true
-        newpost(params)
+    result = newpost(params)
+    if result == true
         redirect('/news')
     else
-        set_error("Vänligen fyll i alla fält")
+        set_error(result)
         redirect('/newpost')
     end
 end
