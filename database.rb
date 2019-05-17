@@ -25,6 +25,9 @@ module Model
     # @param [Hash] params 
     def newimg(params)
         db = connect()
+        if params[:img] == nil
+            return false
+        end
         imgname = params[:img][:filename]
         img = params[:img][:tempfile]
         imgvalidate = imgname =~ /.(jpg|bmp|png|jpeg)$/
@@ -40,12 +43,73 @@ module Model
 
     def validate(params)
         params.values.each do |element|
-            if element == ""
+            if element == nil
                 return false
             end
         end
         return true
     end
+    # -------------------------Employees-------------------------
+
+    def validate_employee(params)
+        val = {}
+        val[:firstnamevalidate] = params["FirstName"] =~ /^[a-öA-ÖåäöÅÄÖ]+$/
+        val[:lastnamevalidate] = params["LastName"] =~ /^[a-öA-ÖåäöÅÄÖ]+$/
+        val[:emailvalidate] = params["Email"] =~ /\A([a-zA-Z\d].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/
+        val[:phonevalidate] = params["Phone"] =~ /^\+?\d+$/
+        if params["Info"].strip.empty? == true
+            val[:infovalidate] = nil
+        else
+            val[:infovalidate] = 0
+        end
+        if validate(val) == false
+            return "Vänligen fyll i alla fält korrekt"
+        else
+            return true
+        end
+    end
+
+    def getemployees(params)
+        db = connect()
+        db[:employees].join(:images, :ImgId => :ImgId)
+    end
+
+    def newemployee(params)
+        db = connect()
+        result = validate_employee(params)
+        img = newimg(params)
+        if result != true
+            return result
+        elsif img == false
+            return "Vänligen ladda upp en bild!"
+        else
+            imgid = img
+            db[:employees].insert(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}", ImgId: "#{imgid}")
+            return true
+        end
+    end
+
+    def editemployee(params)
+        db = connect()
+        db[:employees].where(Id: params["id"])
+    end
+
+    def updateemployee(params)
+        db = connect()
+        if params[:img] != nil
+            imgid = newimg(params)
+            db[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}", ImgId: "#{imgid}")
+        else
+            db[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}")
+        end
+    end
+
+    def removeemployee(params)
+        db = connect()
+        db[:employees].where(Id: params["id"]).delete
+    end
+end
+    #-------------------------------------------------------------
 
     def login(params)
         db = connect()
@@ -105,35 +169,3 @@ module Model
             db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", PostDate: Date.today)
         end
     end
-
-    def getemployees(params)
-        db = connect()
-        db[:employees].join(:images, :ImgId => :ImgId)
-    end
-
-    def newemployee(params)
-        db = connect()
-        imgid = newimg(params)
-        db[:employees].insert(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}", ImgId: "#{imgid}")
-    end
-
-    def editemployee(params)
-        db = connect()
-        db[:employees].where(Id: params["id"])
-    end
-
-    def updateemployee(params)
-        db = connect()
-        if params[:img] != nil
-            imgid = newimg(params)
-            db[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}", ImgId: "#{imgid}")
-        else
-            db[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}")
-        end
-    end
-
-    def removeemployee(params)
-        db = connect()
-        db[:employees].where(Id: params["id"]).delete
-    end
-end

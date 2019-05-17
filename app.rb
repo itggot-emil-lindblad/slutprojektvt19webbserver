@@ -203,11 +203,11 @@ end
 #
 # @see Model#newemployee
 post('/newemployee') do
-    if validate(params) == true
-        newemployee(params)
+    result = newemployee(params)
+    if result == true
         redirect('/employees')
     else
-        set_error("Vänligen fyll i alla fält")
+        set_error(result)
         redirect('/newemployee')
     end
 end
