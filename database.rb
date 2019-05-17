@@ -96,6 +96,10 @@ module Model
 
     def updateemployee(params)
         db = connect()
+        result = validate_employee(params)
+        if result != true
+            return result
+        end
         if params[:img] != nil
             imgid = newimg(params)
             db[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}", ImgId: "#{imgid}")

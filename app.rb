@@ -236,8 +236,13 @@ end
 #
 # @see Model#updateemployee
 post('/editemployee/:id/update') do
-    updateemployee(params)
-    redirect('/employees')
+    result = updateemployee(params)
+    if result == true
+        redirect('/employees')
+    else
+        set_error(result)
+        redirect(back)
+    end
 end
 
 # Deletes an employee profile
