@@ -36,9 +36,11 @@ module Model
             File.open("public/img/#{newname}", 'wb') do |f|
                 f.write(img.read)
             end
+            db[:images].insert(Path: "#{newname}")
+            return db[:images].where(Path: "#{newname}").get(:ImgId)
+        else
+            return false
         end
-        db[:images].insert(Path: "#{newname}")
-        return db[:images].where(Path: "#{newname}").get(:ImgId)
     end
     
     def validate(params)
@@ -129,11 +131,15 @@ module Model
         end
         if params[:img] != nil
             imgid = newimg(params)
+            if imgid == false
+                return "Vänligen ladda upp en bild!"
+            else
             db[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}", ImgId: "#{imgid}")
+            end
         else
             db[:employees].where(Id: params["id"]).update(Firstname: "#{params["FirstName"]}", LastName: "#{params["LastName"]}", Email: "#{params["Email"]}", Phone: "#{params["Phone"]}", Info: "#{params["Info"]}")
         end
-        # return true
+        return true
     end
 
     def removeemployee(params)
@@ -196,7 +202,11 @@ module Model
         end
         if params[:img] != nil
             imgid = newimg(params)
-            db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{imgid}", PostDate: Date.today)
+            if imgid == false
+                return "Vänligen ladda upp en bild!"
+            else
+                db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{imgid}", PostDate: Date.today)
+            end
         else
             db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", PostDate: Date.today)
         end
