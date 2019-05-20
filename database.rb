@@ -167,7 +167,12 @@ module Model
 
     def getnews(params)
         db = connect()
-        return db[:posts].join(:images, :ImgId => :ImgId).order(Sequel.desc(:Id))
+        return db[:posts].join(:images, ImgId: :ImgId).join(:categories, CategoryId: Sequel[:posts][:CategoryId]).order(Sequel.desc(:Id))
+    end
+
+    def getcategories()
+        db = connect
+        return db[:categories]
     end
 
     def newpost(params)
@@ -228,17 +233,12 @@ module Model
         db = connect()
         r = db[:categories].first(Category: params["Category"])
         if r != nil
-            byebug
             return "Kategorin finns redan!"
         end
         val = {}
-        if params["Category"].strip.empty? == true
-            val[:textvalidate] = nil
-        else
-            val[:textvalidate] = 0
-        end
+        val[:categoryvalidate] = params["Category"] =~ /^[a-öA-ÖåäöÅÄÖ]{3,}$/
         if validate(val) == false
-            return "Vänligen fyll i fältet korrekt"
+            return "Vänligen fyll i fältet korrekt, minst 3 bokstäver!"
         else
             return true
         end

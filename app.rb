@@ -95,7 +95,11 @@ end
 # Displays a form for creating a new post
 #
 get('/newpost') do
-    slim(:newpost)
+    categories = getcategories()
+    slim(:newpost, locals:{
+            categories: categories
+        }
+    )
 end
 
 # Takes input and attempts to create a new post
