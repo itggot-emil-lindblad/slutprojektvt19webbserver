@@ -213,4 +213,34 @@ module Model
         return true
     end
     #---------------------------------------------------------
+    def newcategory(params)
+        db = connect()
+        result = validate_category(params)
+        if result != true
+            return result
+        else
+            db[:categories].insert(Category: params["Category"])
+            return "Kategorin lades till"
+        end
+    end
+
+    def validate_category(params)
+        db = connect()
+        r = db[:categories].first(Category: params["Category"])
+        if r != nil
+            byebug
+            return "Kategorin finns redan!"
+        end
+        val = {}
+        if params["Category"].strip.empty? == true
+            val[:textvalidate] = nil
+        else
+            val[:textvalidate] = 0
+        end
+        if validate(val) == false
+            return "Vänligen fyll i fältet korrekt"
+        else
+            return true
+        end
+    end
 end

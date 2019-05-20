@@ -258,3 +258,17 @@ post('/editemployee/:id/delete') do
     removeemployee(params)
     redirect('/employees')
 end
+
+# Displays a form for creating a new post category
+#
+get('/newcategory') do
+    slim(:newcategory)
+end
+
+# Takes input and attempts to create a new post category
+#
+post('/newcategory') do
+    result = newcategory(params)
+    set_error(result)
+    redirect(back)
+end

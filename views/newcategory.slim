@@ -1,0 +1,15 @@
+.newcategory
+    -if error?
+        h1 Ny kategori
+        form action="/newcategory" method="POST"
+            p Kategori
+            input type="text" name="Category"
+            p 
+            input type="Submit" value="Skapa kategori"
+        p = get_error()
+    -else
+        h1 Ny kategori
+        form action="/newcategory" method="POST"
+            p Kategori
+            input type="text" name="Category"
+            input type="Submit" value="Skapa kategori"
