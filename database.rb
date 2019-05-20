@@ -71,20 +71,20 @@ module Model
                 db[:users].where(Id: 1).update(Hash: hash)
                 return true
             else
-                return "Nomatch"
+                return "Nya lösenordet matchar inte!"
             end
         else
-            return "Wrong pw"
+            return "Fel nuvarande lösenord!"
         end
     end
     # -------------------------Employees-------------------------
 
     def validate_employee(params)
         val = {}
-        val[:firstnamevalidate] = params["FirstName"] =~ /^[a-öA-ÖåäöÅÄÖ]+$/
-        val[:lastnamevalidate] = params["LastName"] =~ /^[a-öA-ÖåäöÅÄÖ]+$/
+        val[:firstnamevalidate] = params["FirstName"] =~ /^[a-öA-ÖåäöÅÄÖ]{2,}$/
+        val[:lastnamevalidate] = params["LastName"] =~ /^[a-öA-ÖåäöÅÄÖ]{3,}$/
         val[:emailvalidate] = params["Email"] =~ /\A([a-zA-Z\d].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/
-        val[:phonevalidate] = params["Phone"] =~ /^\+?\d+$/
+        val[:phonevalidate] = params["Phone"] =~ /^\+?\d{10,}$/
         if params["Info"].strip.empty? == true
             val[:infovalidate] = nil
         else
@@ -146,7 +146,7 @@ module Model
     #---------------------------Posts------------------------------------
     def validate_post(params)
         val = {}
-        val[:titlevalidate] = params["PostTitle"] =~ /^[a-öA-ÖåäöÅÄÖ]+$/
+        val[:titlevalidate] = params["PostTitle"] =~ /^[a-öA-ÖåäöÅÄÖ]{6,}$/
         if params["PostText"].strip.empty? == true
             val[:textvalidate] = nil
         else
