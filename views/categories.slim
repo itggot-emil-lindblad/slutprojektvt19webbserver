@@ -1,4 +1,4 @@
-.newcategory
+.categories
     -if error?
         h1 Ny kategori
         form action="/newcategory" method="POST"
@@ -12,4 +12,13 @@
         form action="/newcategory" method="POST"
             p Kategori
             input type="text" name="Category"
+            p
             input type="Submit" value="Skapa kategori"
+    
+    h1 Ta bort kategori
+    form action="/removecategory" method="POST"
+        select name="Category"
+            -categories.each do |element|
+                option value="#{element[:CategoryId]}" = element[:Category]
+        p
+        input type="submit" value="Ta bort"

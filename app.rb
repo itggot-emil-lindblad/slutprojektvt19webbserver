@@ -126,8 +126,10 @@ end
 # @see Model#editpost
 get('/editpost/:id') do
     post = editpost(params)
+    categories = getcategories()
     slim(:editpost, locals: {
-            post: post
+            post: post,
+            categories: categories
         }
     )
 end
@@ -265,14 +267,31 @@ end
 
 # Displays a form for creating a new post category
 #
-get('/newcategory') do
-    slim(:newcategory)
+get('/categories') do
+    categories = getcategories()
+    slim(:categories, locals:{
+            categories: categories
+        }
+    )
 end
 
 # Takes input and attempts to create a new post category
 #
+# @param [String] Category, The name of the category
+#
+# @see Model#newcategory
 post('/newcategory') do
     result = newcategory(params)
     set_error(result)
+    redirect(back)
+end
+
+# Deletes an employee profile
+#
+# @param [String] Category, The id of the category
+#
+# @see Model#removecategory
+post('/removecategory') do
+    removecategory(params)
     redirect(back)
 end

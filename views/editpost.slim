@@ -9,6 +9,16 @@
                 textarea name="PostText" cols="30" rows="10" = element[:PostText]
                 p Ladda upp bild
                 input type="file" name="img" accept="image/*" value="#{element[:ImgPath]}"
+                p Välj första kategorinyeet
+                select name="Category1"
+                    option value="" Ändra inte kategori
+                    -categories.each do |element|
+                        option value="#{element[:CategoryId]}" = element[:Category]
+                p Välj andra kategorin
+                select name="Category2"
+                    option value="" Ändra inte kategori
+                    -categories.each do |element|
+                        option value="#{element[:CategoryId]}" = element[:Category]
                 p 
                 input type="submit" value="Redigera"
                 p = get_error()
@@ -22,5 +32,15 @@
                 textarea name="PostText" cols="30" rows="10" = element[:PostText]
                 p Ladda upp bild
                 input type="file" name="img" accept="image/*" value="#{element[:ImgPath]}"
-                p 
+                p Välj första kategorin
+                select name="Category1"
+                    option value="" Ändra inte kategori
+                    -categories.each do |element|
+                        option value="#{element[:CategoryId]}" = element[:Category]
+                p Välj andra kategorin
+                select name="Category2"
+                    option value="" Ändra inte kategori
+                    -categories.each do |element|
+                        option value="#{element[:CategoryId]}" = element[:Category]
+                p
                 input type="submit" value="Redigera"

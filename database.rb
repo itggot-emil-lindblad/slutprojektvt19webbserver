@@ -167,7 +167,8 @@ module Model
 
     def getnews(params)
         db = connect()
-        return db[:posts].join(:images, ImgId: :ImgId).join(:categories, CategoryId: Sequel[:posts][:CategoryId]).order(Sequel.desc(:Id))
+        # return db[:posts].join(:images, ImgId: :ImgId).join(:categories, CategoryId: Sequel[:posts][:CategoryId]).order(Sequel.desc(:Id))
+        return db[:posts].join(:images, ImgId: :ImgId).order(Sequel.desc(:Id))
     end
 
     def getcategories()
@@ -178,25 +179,21 @@ module Model
     def newpost(params)
         db = connect()
         result = validate_post(params)
-        img = newimg(params)
-        if result != true
+        category = categorycheck(params)
+        if category == false
+            return "Välj två unika kategorier"
+        elsif result != true
             return result
-        elsif img == false
+        end
+        img = newimg(params)
+        if img == false
             return "Vänligen ladda upp en bild!"
         else
             db[:posts].insert(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{img}", PostDate: Date.today)
+            postid = db[:posts].order(:Id).last
+            db[:categorieslink].multi_insert([{PostId: "#{postid[:Id]}", CategoryId: "#{params["Category1"]}"}, {PostId: "#{postid[:Id]}", CategoryId: "#{params["Category2"]}"}])
             return true
         end
-    end
-
-    def deletepost(params)
-        db = connect()
-        db[:posts].where(Id: params["id"]).delete
-    end
-
-    def editpost(params)
-        db = connect()
-        db[:posts].join(:images, :ImgId => :ImgId).where(Id: params["id"])
     end
 
     def updatepost(params)
@@ -216,6 +213,16 @@ module Model
             db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", PostDate: Date.today)
         end
         return true
+    end
+    
+    def deletepost(params)
+        db = connect()
+        db[:posts].where(Id: params["id"]).delete
+    end
+
+    def editpost(params)
+        db = connect()
+        db[:posts].join(:images, :ImgId => :ImgId).where(Id: params["id"])
     end
     #---------------------------------------------------------
     def newcategory(params)
@@ -238,9 +245,22 @@ module Model
         val = {}
         val[:categoryvalidate] = params["Category"] =~ /^[a-öA-ÖåäöÅÄÖ]{3,}$/
         if validate(val) == false
-            return "Vänligen fyll i fältet korrekt, minst 3 bokstäver!"
+            return "Vänligen fyll i fältet, minst 3 bokstäver!"
         else
             return true
         end
+    end
+
+    def categorycheck(params)
+        if params["Category1"] == params["Category2"]
+            return false
+        else
+            return true
+        end
+    end
+
+    def removecategory(params)
+        db = connect()
+        db[:categories].where(CategoryId: params["Category"]).delete
     end
 end
