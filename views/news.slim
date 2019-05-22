@@ -4,7 +4,7 @@
         a href="/newpost" Nytt inlägg
     button 
         a href="/categories" Hantera kategorier
-    .cards    
+    .cards
         -newsposts.each do |element|
             article.newspost
                 .controls
@@ -20,3 +20,4 @@
                 p = element[:PostText]
                 a href="/post/#{element[:Id]}" Läs mer
                 span = element[:PostDate]
+                p = element[:Category]

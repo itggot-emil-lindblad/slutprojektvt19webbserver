@@ -85,7 +85,7 @@ end
 #
 # @see Model#getnews
 get('/news') do
-    newsposts = getnews(params)
+    newsposts = getnews()
     slim(:news, locals:{
             newsposts: newsposts
         }
@@ -94,6 +94,7 @@ end
 
 # Displays a form for creating a new post
 #
+# @ see Model#getcategories
 get('/newpost') do
     categories = getcategories()
     slim(:newpost, locals:{
@@ -124,6 +125,7 @@ end
 # @param [Integer] :id, The ID of the post
 #
 # @see Model#editpost
+# @see Model#getcategories
 get('/editpost/:id') do
     post = editpost(params)
     categories = getcategories()
@@ -139,9 +141,11 @@ end
 # @param [Integer] :id, The ID of the post
 # @param [String] PostTitle, The post title
 # @param [String] PostText, The post text
-# @param [String] img, A uploaded image
+# @param [String] img, The post image
+# @param [String] Category1, The first post category
+# @param [String] Category2, The secound post category
 #
-# @see Model#update
+# @see Model#updatepost
 post('/editpost/:id/update') do
     result = updatepost(params)
     if result == true
@@ -190,7 +194,7 @@ end
 #
 # @see Model#getemployees
 get('/employees') do
-    employees = getemployees(params)
+    employees = getemployees()
     slim(:employees, locals:{
             employees: employees
         }
@@ -259,7 +263,7 @@ end
 #
 # @param [Integer] :id, The ID of the employee profile
 #
-# @see Model#deletepost
+# @see Model#removeemployee
 post('/editemployee/:id/delete') do
     removeemployee(params)
     redirect('/employees')
@@ -267,6 +271,7 @@ end
 
 # Displays a form for creating a new post category
 #
+# @see Model#getcategories
 get('/categories') do
     categories = getcategories()
     slim(:categories, locals:{
