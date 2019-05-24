@@ -129,9 +129,11 @@ end
 get('/editpost/:id') do
     post = editpost(params)
     categories = getcategories()
+    categoriesid = getcategoriesforedit(params)
     slim(:editpost, locals: {
             post: post,
-            categories: categories
+            categories: categories,
+            categoriesid: categoriesid
         }
     )
 end

@@ -11,14 +11,13 @@
                 input type="file" name="img" accept="image/*" value="#{element[:ImgPath]}"
                 p Välj första kategorinyeet
                 select name="Category1"
-                    option value="" Ändra inte kategori
                     -categories.each do |element|
-                        option value="#{element[:CategoryId]}" = element[:Category]
+                        -categoriesid.each do |id|
+                            option value="#{id[:Id]}" = element[:Category]
                 p Välj andra kategorin
                 select name="Category2"
-                    option value="" Ändra inte kategori
                     -categories.each do |element|
-                        option value="#{element[:CategoryId]}" = element[:Category]
+                        option value="#{element[:Id]}" = element[:Category]
                 p 
                 input type="submit" value="Redigera"
                 p = get_error()
@@ -30,17 +29,13 @@
                 input type="text" name="PostTitle" value="#{element[:PostTitle]}"
                 p Text
                 textarea name="PostText" cols="30" rows="10" = element[:PostText]
+                p Välj två kategorier
+                - categoriesid.each do |id|
+                    div.category-selection(data-post-id-link="#{id[:Id]}")
+                        select name="#{id[:Id]}"
+                            - categories.each do |element|
+                                option value="#{element[:CategoryId]}" = element[:Category]
                 p Ladda upp bild
                 input type="file" name="img" accept="image/*" value="#{element[:ImgPath]}"
-                p Välj första kategorin
-                select name="Category1"
-                    option value="" Ändra inte kategori
-                    -categories.each do |element|
-                        option value="#{element[:CategoryId]}" = element[:Category]
-                p Välj andra kategorin
-                select name="Category2"
-                    option value="" Ändra inte kategori
-                    -categories.each do |element|
-                        option value="#{element[:CategoryId]}" = element[:Category]
                 p
                 input type="submit" value="Redigera"

@@ -29,7 +29,6 @@ module Model
     # @return [Integer] if an image was created
     # @return [FalseClass] if validation of the uploaded file failed
     def newimg(params)
-        byebug
         db = connect()
         if params[:img] == nil
             return false
@@ -269,8 +268,8 @@ module Model
 
     def getnews()
         db = connect()
-        return db[:posts].join(:images, ImgId: :ImgId).join(:categories, CategoryId: Sequel[:categorieslink][:CategoryId]).join(:categorieslink, PostId: Sequel[:posts][:Id]).order(Sequel.desc(:Id))
-        # return db[:posts].join(:images, ImgId: :ImgId).order(Sequel.desc(:Id))
+        # return db[:posts].join(:images, ImgId: :ImgId).join(:categories, CategoryId: Sequel[:categorieslink][:CategoryId]).join(:categorieslink, PostId: Sequel[:posts][:Id]).order(Sequel.desc(:Id))
+        return db[:posts].join(:images, ImgId: :ImgId).order(Sequel.desc(:Id))
         # db.execute("SELECT * from posts INNER JOIN images on posts.ImgId = images.ImgId INNER JOIN categories ON categorieslink.CategoryId = categories.CategoryId INNER JOIN categorieslink ON posts.Id = categorieslink.PostId  WHERE Id = 33")
     end
 
@@ -280,8 +279,19 @@ module Model
     #   * :Id [Integer] The id of category
     #   * :Category [String] The category
     def getcategories()
-        db = connect
+        db = connect()
         return db[:categories]
+        # return db[:categories].join(:categorieslink, CategoryId: :CategoryId)
+    end
+
+    # Retrieves all single from categories table joined with categorieslink table
+    #
+    # @return [Hash]
+    #   * :Id [Integer] The id of category
+    #   * :Category [String] The category
+    def getcategoriesforedit(params)
+        db = connect()
+        return db[:categories].join(:categorieslink, CategoryId: :CategoryId).where(PostId: params["id"])
     end
 
     # Attempts to insert a new row in the posts and categorieslink table
@@ -318,6 +328,7 @@ module Model
     # Attempts to update a row in the posts and categorieslink table
     #
     # @param [Hash] params form data
+    # @option params [Integer] Id The id of the post
     # @option params [String] PostTitle The post title
     # @option params [String] PostText The post text
     # @option params [String] img The post image
@@ -329,6 +340,10 @@ module Model
     def updatepost(params)
         db = connect()
         result = validate_post(params)
+        category = categorycheck(params)
+        if category == false
+            return "Välj två unika kategorier"
+        end
         if result != true
             return result
         end
@@ -338,9 +353,13 @@ module Model
                 return "Vänligen ladda upp en bild!"
             else
                 db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", ImgId: "#{imgid}", PostDate: Date.today)
+                db[:categorieslink].where(Id: params.keys[2]).update(CategoryId: "#{params[params.keys[2]]}")
+                db[:categorieslink].where(Id: params.keys[3]).update(CategoryId: "#{params[params.keys[3]]}")  
             end
         else
             db[:posts].where(Id: params["id"]).update(PostTitle: "#{params["PostTitle"]}", PostText: "#{params["PostText"]}", PostDate: Date.today)
+            db[:categorieslink].where(Id: params.keys[2]).update(CategoryId: "#{params[params.keys[2]]}")
+            db[:categorieslink].where(Id: params.keys[3]).update(CategoryId: "#{params[params.keys[3]]}")
         end
         return true
     end
@@ -366,6 +385,7 @@ module Model
     def editpost(params)
         db = connect()
         db[:posts].join(:images, :ImgId => :ImgId).where(Id: params["id"])
+        # return db[:posts].join(:images, ImgId: :ImgId).join(:categories, CategoryId: Sequel[:categorieslink][:CategoryId]).join(:categorieslink, PostId: Sequel[:posts][:Id]).where(Sequel[:posts][:Id] => params["id"])
     end
     #---------------------------------------------------------
 
@@ -418,7 +438,7 @@ module Model
     # @return [TrueClass] if inputs dont match
     # @return [String] if inputs match
     def categorycheck(params)
-        if params["Category1"] == params["Category2"]
+        if params[params.keys[2]] == params[params.keys[3]]
             return false
         else
             return true
